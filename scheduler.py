@@ -21,7 +21,7 @@ OUT_DIR = 'out/'
 try:
     os.system('rclone -v sync'
               + ' ' + REMOTE_NAME
-              + ':' + REMOTE DIR + TODO_DIR
+              + ':' + REMOTE_DIR + TODO_DIR
               + ' ' + LOCAL_DIR + TODO_DIR )
 except:
     pass
