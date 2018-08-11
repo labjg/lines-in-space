@@ -30,6 +30,7 @@ except:
 # If so, one is picked at random, processed, and saved.
 try:
     infileList = glob.glob(LOCAL_DIR + TODO_DIR + '*.jpg')
+    print(infileList)
 except:
     pass
 
