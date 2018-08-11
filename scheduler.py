@@ -29,7 +29,7 @@ except:
 # Next, we see whether there are any source images available for processing.
 # If so, one is picked at random, processed, and saved.
 try:
-    infileList = glob.glob(LOCAL_DIR + TODO_DIR + '*.jpg')
+    infileList = glob.glob(LOCAL_DIR + TODO_DIR + '**/*.jpg')
     print(infileList)
 except:
     pass
