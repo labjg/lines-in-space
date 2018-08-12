@@ -12,7 +12,7 @@ import glob
 import random
 import streaker
 import time
-import pub
+#import pub
 
 REMOTE_NAME = 'dropbox'
 REMOTE_DIR = 'Apps/lines_in_space/images/'
@@ -37,22 +37,24 @@ try:
     # so, one is picked at random, processed, and saved.
     infileList = glob.glob(LOCAL_DIR+TODO_DIR+'**/*.jpg')
     infilePath = random.choice(infileList)
-    infileName = os.path.split(infilePath)
-    outfilePath = LOCAL_DIR+OUT_DIR+infileName,
-    vertical = os.path.split(infileName) == 'vertical'
+    infileDir = os.path.split(infilePath)[0]
+    infileName = os.path.split(infilePath)[1]
+    infileSub = os.path.split(infileDir)[1]
+    outfilePath = LOCAL_DIR+OUT_DIR+infileSub+'/'+infileName
+    vertical = infileSub == 'vertical'
     streaker.streak(
-        infileChoice,
+        infilePath,
         outfilePath,
         vertical,
         rMedian = 0,
         contrast=1.5,
-        saturatiokn=1.0,
+        saturation=1.0,
         verbose=0 )
 
     # If we get this far then the image has been successully processed and
     # saved. Now we move the source file to the 'done' folder, sync with the
     # cloud, then pick a random delay before publishing in the next 24 hours.
-    os.rename(infilePath, LOCAL_DIR+DONE_DIR+infileName)
+    os.rename(infilePath, LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName)
 
     try:
         os.system('rclone sync'

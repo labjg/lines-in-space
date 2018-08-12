@@ -32,7 +32,7 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
             im = im.transpose(Image.ROTATE_90)
         elif tagList['Orientation'] == '8':
             im = im.transpose(Image.ROTATE_270)
-    else:
+    except:
         pass
 
     # Now for the actual processing:
@@ -91,4 +91,4 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
         im = enh.enhance(saturation)
     
     # Finaly, save the processed image:
-    im_out.save(outfile)
+    im.save(outfile)
