@@ -47,7 +47,7 @@ try:
     infileSub = os.path.split(infileDir)[1]
     outfilePath = LOCAL_DIR+OUT_DIR+infileSub+'/'+infileName
     vertical = infileSub == 'vertical'
-    if verbose: print("Vertical status is " vertical)
+    if verbose: print("Vertical status is ", vertical)
     if verbose: print("Processing image...")
     streaker.streak(
         infilePath,
