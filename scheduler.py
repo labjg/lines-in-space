@@ -21,8 +21,11 @@ TODO_DIR = 'in/todo/'
 DONE_DIR = 'in/done/'
 OUT_DIR = 'out/'
 
+verbose = True
+
 # The first thing to do is sync the LIS Dropbox to get any new source images.
 try:
+    if verbose: print("Syncing source images...")
     os.system('rclone sync'
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+TODO_DIR
@@ -35,13 +38,17 @@ except Exception as e:
 try:
     # We see whether there are any source images available for processing. If
     # so, one is picked at random, processed, and saved.
+    if verbose: print("Listing source images todo...")
     infileList = glob.glob(LOCAL_DIR+TODO_DIR+'**/*.jpg')
     infilePath = random.choice(infileList)
+    if verbose: print("Selected image is ", infilePath)
     infileDir = os.path.split(infilePath)[0]
     infileName = os.path.split(infilePath)[1]
     infileSub = os.path.split(infileDir)[1]
     outfilePath = LOCAL_DIR+OUT_DIR+infileSub+'/'+infileName
     vertical = infileSub == 'vertical'
+    if verbose: print("Vertical status is " vertical)
+    if verbose: print("Processing image...")
     streaker.streak(
         infilePath,
         outfilePath,
@@ -54,17 +61,21 @@ try:
     # If we get this far then the image has been successully processed and
     # saved. Now we move the source file to the 'done' folder, sync with the
     # cloud, then pick a random delay before publishing in the next 24 hours.
+    if verbose: print("Moving image to done folder...")
     os.rename(infilePath, LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName)
 
     try:
+        if verbose: print("Syncing 'out' directory...")
         os.system('rclone sync'
               + ' ' + LOCAL_DIR+OUT_DIR
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+OUT_DIR )
+        if verbose: print("Syncing 'todo' directory...")
         os.system('rclone sync'
               + ' ' + LOCAL_DIR+TODO_DIR
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+TODO_DIR )
+        if verbose: print("Syncing 'done' directory...")
         os.system('rclone sync'
               + ' ' + LOCAL_DIR+DONE_DIR
               + ' ' + REMOTE_NAME
@@ -73,6 +84,7 @@ try:
         print(e)
 
     randelay = random.randint(0,60*60*24)
+    if verbose: print("Random delay is %i s (%f h)" % (randelay,randelay/3600))
     #time.sleep(randelay)
     time.sleep(1)
 
