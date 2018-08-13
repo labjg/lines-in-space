@@ -8,7 +8,6 @@ from __future__ import print_function
 
 from PIL import Image, ImageEnhance
 from PIL.ExifTags import TAGS
-from scipy import ndimage
 import numpy as np
 
 

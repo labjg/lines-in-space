@@ -27,8 +27,8 @@ try:
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+TODO_DIR
               + ' ' + LOCAL_DIR+TODO_DIR )
-except:
-    pass
+except Exception as e:
+    print(e)
 
 # Everything from this point is contingent on there being new source images
 # available, and whether the selected image is processed successfully.
@@ -69,8 +69,8 @@ try:
               + ' ' + LOCAL_DIR+DONE_DIR
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+DONE_DIR )
-    except:
-        pass
+    except Exception as e:
+    print(e)
 
     randelay = random.randint(0,60*60*24)
     time.sleep(randelay)
@@ -79,8 +79,8 @@ try:
     #pub.tweet(outfilePath, title)
 
 
-except:
-    pass
+except Exception as e:
+    print(e)
 
 # sync to cloud: todo, done, out
 
