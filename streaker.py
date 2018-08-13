@@ -13,11 +13,12 @@ import numpy as np
 
 def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
            saturation=1.0, verbose=False):
-    """ Add docstrig here. Contrast=15? is good??
+    """ Add docstrig here. Contrast=1.5 is good??
     """
     im = Image.open(infile)
 
     # First thing is to deal with EXIF orientation flag headaches:
+    if verbose: print("Reading EXIF tags...")
     try:
         tagList = {}
         info = im._getexif()
@@ -25,25 +26,31 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
             decoded = TAGS.get(tag,tag)
             tagList[decoded] = val
 
+        if verbose: print("EXIF orientation tag is", tagList['Orientation'])
         if tagList['Orientation'] == '3':
+            if verbose: print("Rotating 180 degs...")
             im = im.transpose(Image.ROTATE_180)
         elif tagList['Orientation'] == '6':
+            if verbose: print("Rotating 90 degs...")
             im = im.transpose(Image.ROTATE_90)
         elif tagList['Orientation'] == '8':
+            if verbose: print("Rotating 270 degs...")
             im = im.transpose(Image.ROTATE_270)
-    except:
-        pass
+    except Exception as e:
+        if verbose: print(e)
 
     # Now for the actual processing:
     imArr = np.array(im)
 
     if not vertical:
+        if verbose: print("Calculating pixel values for horizontal smear...")
         # A single column of pixel values - will be 'wiped' sideways later:
         pxVals = np.zeros((imArr.shape[0],imArr.shape[2]))
         # Calculate the average pixel value of every row:
         for y in range(pxVals.shape[0]):
             pxVals[y,:] = np.mean(imArr[y,:], axis=0)
     else:
+        if verbose: print("Calculating pixel values for vertical smear...")
         # A single row of pixel values - will be 'wiped' downwards later:
         pxVals = np.zeros((imArr.shape[1],imArr.shape[2]))
         # Calculate the average pixel value of every column:
@@ -52,11 +59,11 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
 
     # Apply a median filter if specified:
     if rMedian > 0:
+        if verbose: print("Applying median filter...")
         # Check the median mask isn't too big for the image:
         if rMedian > (pxVals.shape[0]-1):
-            if verbose:
-                print("Median mask size reduced from %i to %i"\
-                      % (rMedian, pxVals.shape[0]-1))
+            if verbose: print("Median mask size reduced from %i to %i"\
+                              % (rMedian, pxVals.shape[0]-1))
             rMedian = pxVals.shape[0] - 1
         # Create a padded array, mirroring the px values:
         size_pad = (pxVals.shape[0]+(2*rMedian), pxVals.shape[1])
@@ -70,6 +77,7 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
             pxVals[i,:] = np.median(pxVals_pad[i:i+(2*rMedian)+1,:], axis=0)
         
     # 'Wipe' the pixel values across the whole image:
+    if verbose: print("Smearing image...")
     if not vertical:
         for y in range(pxVals.shape[0]):
             imArr[y,:] = pxVals[y]
@@ -81,13 +89,16 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
 
     # Adjust contrast if required:
     if contrast > 1.0:
+        if verbose: print("Adjusting contrast...")
         enh = ImageEnhance.Contrast(im)
         im = enh.enhance(contrast)
 
     # Adjust saturation if required:
     if saturation > 1.0:
+        if verbose: print("Adjusting saturation...")
         enh = ImageEnhance.Color(im)
         im = enh.enhance(saturation)
     
     # Finaly, save the processed image:
+    if verbose: print("Saving output image...")
     im.save(outfile)

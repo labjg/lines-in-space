@@ -31,7 +31,7 @@ try:
               + ':' + REMOTE_DIR+TODO_DIR
               + ' ' + LOCAL_DIR+TODO_DIR )
 except Exception as e:
-    print(e)
+    if verbose: print(e)
 
 # Everything from this point is contingent on there being new source images
 # available, and whether the selected image is processed successfully.
@@ -41,13 +41,13 @@ try:
     if verbose: print("Listing source images todo...")
     infileList = glob.glob(LOCAL_DIR+TODO_DIR+'**/*.jpg')
     infilePath = random.choice(infileList)
-    if verbose: print("Selected image is ", infilePath)
+    if verbose: print("Selected image is", infilePath)
     infileDir = os.path.split(infilePath)[0]
     infileName = os.path.split(infilePath)[1]
     infileSub = os.path.split(infileDir)[1]
     outfilePath = LOCAL_DIR+OUT_DIR+infileSub+'/'+infileName
     vertical = infileSub == 'vertical'
-    if verbose: print("Vertical status is ", vertical)
+    if verbose: print("Vertical status is", vertical)
     if verbose: print("Processing image...")
     streaker.streak(
         infilePath,
@@ -56,7 +56,7 @@ try:
         rMedian = 0,
         contrast=1.5,
         saturation=1.0,
-        verbose=0 )
+        verbose=True )
 
     # If we get this far then the image has been successully processed and
     # saved. Now we move the source file to the 'done' folder, sync with the
@@ -81,7 +81,7 @@ try:
               + ' ' + REMOTE_NAME
               + ':' + REMOTE_DIR+DONE_DIR )
     except Exception as e:
-        print(e)
+        if verbose: print(e)
 
     randelay = random.randint(0,60*60*24)
     if verbose: print("Random delay is %i s (%f h)" % (randelay,randelay/3600))
@@ -93,7 +93,7 @@ try:
 
 
 except Exception as e:
-    print(e)
+    if verbose: print(e)
 
 # sync to cloud: todo, done, out
 
