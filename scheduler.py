@@ -56,7 +56,7 @@ try:
         rMedian = 0,
         contrast=1.5,
         saturation=1.0,
-        verbose=True )
+        verbose=verbose )
 
     # If we get this far then the image has been successully processed and
     # saved. Now we move the source file to the 'done' folder, sync with the
