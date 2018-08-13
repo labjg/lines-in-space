@@ -27,13 +27,13 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
             tagList[decoded] = val
 
         if verbose: print("EXIF orientation tag is", tagList['Orientation'])
-        if tagList['Orientation'] == '3':
+        if tagList['Orientation'] == 3:
             if verbose: print("Rotating 180 degs...")
             im = im.transpose(Image.ROTATE_180)
-        elif tagList['Orientation'] == '6':
+        elif tagList['Orientation'] == 6:
             if verbose: print("Rotating 90 degs...")
             im = im.transpose(Image.ROTATE_90)
-        elif tagList['Orientation'] == '8':
+        elif tagList['Orientation'] == 8:
             if verbose: print("Rotating 270 degs...")
             im = im.transpose(Image.ROTATE_270)
     except Exception as e:
