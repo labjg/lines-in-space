@@ -73,7 +73,8 @@ try:
         print(e)
 
     randelay = random.randint(0,60*60*24)
-    time.sleep(randelay)
+    #time.sleep(randelay)
+    time.sleep(1)
 
     title = os.path.splitext(infileName)[0]
     #pub.tweet(outfilePath, title)
