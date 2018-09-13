@@ -12,7 +12,7 @@ import numpy as np
 
 
 def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
-           saturation=1.0, verbose=False):
+           saturation=1.0, sharpness=1.0, verbose=False):
     """ Add docstrig here. Contrast=1.5 is good??
     """
     im = Image.open(infile)
@@ -98,6 +98,12 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
         if verbose: print("Adjusting saturation...")
         enh = ImageEnhance.Color(im)
         im = enh.enhance(saturation)
+
+    # Adjust sharpness if required:
+    if sharpness > 1.0:
+        if verbose: print("Adjusting sharpness...")
+        enh = ImageEnhance.Sharpness(im)
+        im = enh.enhance(sharpness)
     
     # Finaly, save the processed image:
     if verbose: print("Saving output image...")
