@@ -27,11 +27,12 @@ verbose = True
 def filename_check(path_in):
     # If a file path exists, return a valid one with an appended number.
     path_out = path_in
+    path_split = os.path.splitext(path_in)
     if os.path.isfile(path_out):
         if verbose: print("Appending number to existing filename...")
         i = 2
         while os.path.isfile(path_out):
-            path_out = path_in + (' %i'%i)
+            path_out = path_split[0] + (' %i'%i) + path_split[1]
             i += 1
     return path_out
 
