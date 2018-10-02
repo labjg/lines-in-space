@@ -23,6 +23,19 @@ OUT_DIR = 'out/'
 
 verbose = True
 
+
+def filename_check(path_in):
+    # If a file path exists, return a valid one with an appended number.
+    path_out = path_in
+    if os.path.isfile(path_out):
+        if verbose: print("Appending number to existing filename...")
+        i = 2
+        while os.path.isfile(path_out):
+            path_out = path_in + (' %i'%i)
+            i += 1
+    return path_out
+
+
 # The first thing to do is sync the LIS Dropbox to get any new source images.
 try:
     if verbose: print("Syncing source images...")
@@ -46,6 +59,7 @@ try:
     infileName = os.path.split(infilePath)[1]
     infileSub = os.path.split(infileDir)[1]
     outfilePath = LOCAL_DIR+OUT_DIR+infileSub+'/'+infileName
+    outfilePath = filename_check(outfilePath)
     vertical = infileSub == 'vertical'
     if verbose: print("Vertical status is", vertical)
     if verbose: print("Processing image...")
@@ -62,15 +76,8 @@ try:
     # saved. Now we move the source file to the 'done' folder, sync with the
     # cloud, then pick a random delay before publishing in the next 24 hours.
     if verbose: print("Moving image to done folder...")
-    donePath_base = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName
-    donePath = donePath_base
-    if os.path.isfile(donePath):
-        i = 2
-        while os.path.isfile(donePath):
-            if verbose: print("Appending number to existing filename...")
-            donePath = donePath_base + (' %i'%i)
-            if verbose: print("Appended number is", i)
-            i += 1
+    donePath = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName
+    donePath = filename_check(donePath)
     os.rename(infilePath, donePath)
 
     try:
