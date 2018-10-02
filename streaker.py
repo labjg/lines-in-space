@@ -32,10 +32,10 @@ def streak(infile, outfile, vertical=False, rMedian=0, contrast=1.0,
             im = im.transpose(Image.ROTATE_180)
         elif tagList['Orientation'] == 6:
             if verbose: print("Rotating 90 degs...")
-            im = im.transpose(Image.ROTATE_90)
+            im = im.transpose(Image.ROTATE_270)
         elif tagList['Orientation'] == 8:
             if verbose: print("Rotating 270 degs...")
-            im = im.transpose(Image.ROTATE_270)
+            im = im.transpose(Image.ROTATE_90)
     except Exception as e:
         if verbose: print(e)
 

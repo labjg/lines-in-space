@@ -65,10 +65,11 @@ try:
     donePath_base = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName
     donePath = donePath_base
     if os.path.isfile(donePath):
-        if verbose: print("File exists - appending number...")
         i = 2
         while os.path.isfile(donePath):
+            if verbose: print("Appending number to existing filename...")
             donePath = donePath_base + (' %i'%i)
+            if verbose: print("Appended number is", i)
             i += 1
     os.rename(infilePath, donePath)
 
