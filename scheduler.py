@@ -62,12 +62,14 @@ try:
     # saved. Now we move the source file to the 'done' folder, sync with the
     # cloud, then pick a random delay before publishing in the next 24 hours.
     if verbose: print("Moving image to done folder...")
-    donePath = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName
+    donePath_base = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName
+    donePath = donePath_base
     if os.path.isfile(donePath):
         if verbose: print("File exists - appending number...")
-        i = 0
+        i = 2
         while os.path.isfile(donePath):
-            donePath = LOCAL_DIR+DONE_DIR+infileSub+'/'+infileName + (' %i'%i)
+            donePath = donePath_base + (' %i'%i)
+            i += 1
     os.rename(infilePath, donePath)
 
     try:
