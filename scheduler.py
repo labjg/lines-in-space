@@ -38,13 +38,25 @@ def filename_check(path_in):
 
 
 # Check the required local directories exist
-if not os.path.exists(LOCAL_DIR_ROOT+TODO_DIR):
-    os.makedirs(LOCAL_DIR_ROOT+TODO_DIR)
-if not os.path.exists(LOCAL_DIR_ROOT+DONE_DIR):
-    os.makedirs(LOCAL_DIR_ROOT+DONE_DIR)
+if not os.path.exists(LOCAL_DIR_ROOT+TODO_DIR+'/vertical'):
+    if verbose: print("Creating non-existent 'todo' directory...")
+    os.makedirs(LOCAL_DIR_ROOT+TODO_DIR+'/vertical')
+if not os.path.exists(LOCAL_DIR_ROOT+TODO_DIR+'/horizontal'):
+    if verbose: print("Creating non-existent 'todo' directory...")
+    os.makedirs(LOCAL_DIR_ROOT+TODO_DIR+'/horizontal')
+
+if not os.path.exists(LOCAL_DIR_ROOT+DONE_DIR+'/vertical'):
+    if verbose: print("Creating non-existent 'done' directory...")
+    os.makedirs(LOCAL_DIR_ROOT+DONE_DIR+'/vertical')
+if not os.path.exists(LOCAL_DIR_ROOT+DONE_DIR+'/horizontal'):
+    if verbose: print("Creating non-existent 'done' directory...")
+    os.makedirs(LOCAL_DIR_ROOT+DONE_DIR+'/horizontal')
+
 if not os.path.exists(LOCAL_DIR_ROOT+OUT_DIR+'/vertical'):
+    if verbose: print("Creating non-existent 'out' directory...")
     os.makedirs(LOCAL_DIR_ROOT+OUT_DIR+'/vertical')
 if not os.path.exists(LOCAL_DIR_ROOT+OUT_DIR+'/horizontal'):
+    if verbose: print("Creating non-existent 'out' directory...")
     os.makedirs(LOCAL_DIR_ROOT+OUT_DIR+'/horizontal')
 
 # Sync the LIS Dropbox to get any new source images.
@@ -116,7 +128,11 @@ try:
     time.sleep(1)
 
     title = os.path.splitext(infileName)[0]
-    pub.tweet_image(outfilePath, title)
+
+    try:
+        pub.tweet_image(outfilePath, title)
+    except Exception as e:
+        if verbose: print(e)
 
 except Exception as e:
     if verbose: print(e)
