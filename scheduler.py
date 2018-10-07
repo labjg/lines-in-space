@@ -21,7 +21,7 @@ TODO_DIR = 'in/todo/'
 DONE_DIR = 'in/done/'
 OUT_DIR = 'out/'
 
-verbose = True
+verbose = False
 
 
 def filename_check(path_in):
@@ -124,12 +124,12 @@ try:
 
     randelay = random.randint(0,60*60*24)
     if verbose: print("Random delay is %i s (%f h)" % (randelay,randelay/3600))
-    #time.sleep(randelay)
-    time.sleep(1)
+    time.sleep(randelay)
 
     title = os.path.splitext(infileName)[0]
 
     try:
+        if verbose: print("Publishing to Twitter...")
         pub.tweet_image(outfilePath, title)
     except Exception as e:
         if verbose: print(e)
