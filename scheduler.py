@@ -3,9 +3,10 @@
 from __future__ import print_function
 
 # Lines In Space (LIS) scheduler
-# Designed to be run every 24 hours with cron or similar.
 # Requires rclone with a configured 'remote', defined below.
 # By James Gilbert (@labjg); feel free to take, use, fix, hack etc.
+# Designed to be run every 24 hours as a cron job. Example crontab entry:
+# 0 0 * * * python3 /home/user/lines-in-space/scheduler.py > /dev/null 2>&1
 
 import os
 import glob
