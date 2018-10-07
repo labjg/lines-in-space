@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 
-# Streaker
+# Lines In Space (LIS) streaker
 # Smear images horizontally or vertically.
-# By James Gilbert (@labjg) 2018-08; feel free to take, use, fix, hack etc.
+# By James Gilbert (@labjg); feel free to take, use, fix, hack etc.
 
 from PIL import Image, ImageEnhance
 from PIL.ExifTags import TAGS

@@ -3,16 +3,16 @@
 from __future__ import print_function
 
 # Lines In Space (LIS) scheduler
-# Designed to be run every 24 hours with cron.
-# Requires rclone with a configured remote, defined below.
-# By James Gilbert (@labjg) 2018-08; feel free to take, use, fix, hack etc.
+# Designed to be run every 24 hours with cron or similar.
+# Requires rclone with a configured 'remote', defined below.
+# By James Gilbert (@labjg); feel free to take, use, fix, hack etc.
 
 import os
 import glob
 import random
 import streaker
 import time
-#import pub
+import pub
 
 REMOTE_NAME = 'dropbox'
 REMOTE_DIR = 'Apps/lines_in_space/images/'
@@ -106,11 +106,10 @@ try:
     time.sleep(1)
 
     title = os.path.splitext(infileName)[0]
-    #pub.tweet(outfilePath, title)
+    pub.tweet_image(outfilePath, title)
 
 
 except Exception as e:
     if verbose: print(e)
 
-# sync to cloud: todo, done, out
 
