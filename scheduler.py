@@ -17,7 +17,7 @@ import pub
 
 REMOTE_NAME = 'dropbox'
 REMOTE_DIR_ROOT = 'Apps/lines_in_space/images/'
-LOCAL_DIR_ROOT = 'images/'
+LOCAL_DIR_ROOT = '/home/pi/lines-in-space/images/'
 TODO_DIR = 'in/todo/'
 DONE_DIR = 'in/done/'
 OUT_DIR = 'out/'
